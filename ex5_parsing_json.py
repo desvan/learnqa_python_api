@@ -5,7 +5,7 @@ json_text = '{"messages":[{"message":"This is the first message","timestamp":"20
             'this is a second message","timestamp":"2021-06-04 16:41:01"}]} '
 obj = json.loads(json_text)
 
-key = "message2"
+key = "message"
 
 try:
     print(obj["messages"][1][key])
