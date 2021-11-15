@@ -1,3 +1,4 @@
 allure-pytest
-requests
+requests~=2.26.0
 pytest
+beautifulsoup4~=4.10.0
