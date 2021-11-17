@@ -30,7 +30,7 @@ for password in unique_passwords:
         continue
     else:
         print(f"{response_check.text}")
-        print(f"{password}")
+        print(f"The password is {password}")
         break
 
 if count == len(unique_passwords):
