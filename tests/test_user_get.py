@@ -40,7 +40,7 @@ class TestUserGet(BaseCase):
         token = self.get_header(response1, "x-csrf-token")
 
         response2 = MyRequests.get(
-            "/user/1",
+            "/user/2",
             headers={"x-csrf-token": token},
             cookies={"auth_sid": auth_sid}
         )
