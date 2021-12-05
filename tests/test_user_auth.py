@@ -2,8 +2,10 @@ import pytest
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 from lib.my_requests import MyRequests
+import allure
 
 
+@allure.epic("Authorization cases")
 class TestUserAuth(BaseCase):
     exclude_params = [
         ("no_cookie"),
@@ -22,11 +24,13 @@ class TestUserAuth(BaseCase):
         self.token = self.get_header(response1, "x-csrf-token")
         self.user_id_from_auth_method = self.get_json_value(response1, "user_id")
 
+    @allure.description("Testing successful user authorization with email and pasword")
     def test_auth_user(self):
-        response2 = MyRequests.get("/user/auth",
-                                   headers={"x-csrf-token": self.token},
-                                   cookies={"auth_sid": self.auth_sid}
-                                   )
+        with allure.step("Authorize as existing user"):
+            response2 = MyRequests.get("/user/auth",
+                                     headers={"x-csrf-token": self.token},
+                                     cookies={"auth_sid": self.auth_sid}
+                                        )
 
         Assertions.assert_json_value_by_name(
             response2,
@@ -35,16 +39,19 @@ class TestUserAuth(BaseCase):
             "User id from auth method is not equal to user id from check method"
         )
 
+    @allure.description("Testing user authorization status without sending auth. cookies or token")
     @pytest.mark.parametrize('condition', exclude_params)
     def test_negative_auth_check(self, condition):
         if condition == "no_cookie":
-            response3 = MyRequests.get("/user/auth",
-                                       headers={"x-csrf-token": self.token}
-                                       )
+            with allure.step("Try to  authorize user with no cookies"):
+                response3 = MyRequests.get("/user/auth",
+                                         headers={"x-csrf-token": self.token}
+                                         )
         else:
-            response3 = MyRequests.get("/user/auth",
-                                       cookies={"auth_sid": self.auth_sid}
-                                       )
+            with allure.step("Try to  authorize user with no token"):
+                response3 = MyRequests.get("/user/auth",
+                                         cookies={"auth_sid": self.auth_sid}
+                                         )
 
         Assertions.assert_json_value_by_name(
             response3,
