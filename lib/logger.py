@@ -9,6 +9,9 @@ class Logger:
 
     @classmethod
     def _write_log_to_file(cls, data: str):
+        if not os.path.exists("logs/"):
+            os.makedirs("logs/")
+
         with open(cls.file_name, 'a', encoding='utf-8') as logger_file:
             logger_file.write(data)
 

@@ -1,0 +1,15 @@
+# проверка включена ли виртуализация
+systeminfo
+
+# версия установленного докера
+docker --version
+
+# создать докер контейнер с python
+docker pull python
+
+# создать билд для тестового прогона
+docker build -t pytest_runner .
+
+# запустить тесты в докере
+docker run --rm --mount type=bind,src=C:\Users\Rhum\PycharmProjects\learnqa_python_api,target=/tests_project/ pytest_runner
+
